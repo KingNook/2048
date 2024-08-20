@@ -1,13 +1,6 @@
 import numpy as np
 import random
 
-def merge_two_dicts(a, b):
-
-    c = a.copy()
-    c.update(b)
-
-    return c
-
 class Tile:
     '''
     tile in 2048 - value should be a power of 2
@@ -50,6 +43,10 @@ class Grid:
     2048 (n x n grid)
     '''
 
+    ## ===============
+    ## CLASS FUNCTIONS
+    ## ===============
+
     def __init__(self, size):
 
         self.size = size
@@ -67,7 +64,9 @@ class Grid:
 
         return grid.__repr__()
     
+    ## ==============
     ## MISC FUNCTIONS
+    ## ==============
 
     def list_to_row(self, lst, row, reversed=False):
         new_row = dict()
@@ -93,8 +92,9 @@ class Grid:
     ## CHECKS
     ## ======
 
-    def is_alive(self):
-        '''check to see if any viable moves are possible.'''
+    def any_valid_moves(self):
+        '''check to see if any viable moves are possible; returns bool'''
+        return not self.move_down(update=False) or self.move_left(update=False) or self.move_up(update=False) or self.move_right(update=False)
 
 
     ## =========
@@ -128,9 +128,10 @@ class Grid:
         choices = self.get_empty_cells()
 
         if len(choices) == 0:
+            # no empty cells, shouldn't be called but this is here just incase - most notimplementederrors will be replaced with game ends once that is implemented
             raise NotImplementedError
         
-        choices = list(set(choices))
+        choices = random.choice(list(choices))
         choice = choices[0]
 
         self.tiles[choice] = Tile(self.initial_cell_value)
@@ -138,12 +139,28 @@ class Grid:
         return self.tiles
         
 
-    ## ========
-    ## MOVEMENT
-    ## ========
+    ## ============
+    ## GRID UPDATES
+    ## ============
 
     def condense_row(self, arr):
         '''condenses as if moving to the left, can reverse the array_like object beforehand if needed'''
+        new_arr = []
+        pointer = 0
+        while pointer < len(arr):
+
+            if pointer != len(arr) - 1:
+                if arr[pointer] == arr[pointer + 1]:
+                    new_arr.append(arr[pointer] * 2)
+                    pointer += 2
+                else:
+                    new_arr.append(arr[pointer])
+                    pointer += 1
+            else:
+                new_arr.append(arr[pointer])
+                pointer += 1
+
+        return new_arr
 
     def move_vertical(self, reversed=False):
         '''
@@ -166,21 +183,7 @@ class Grid:
                 current_col = current_col[::-1]
             
             # now we combine   
-            new_col = []
-
-            pointer = 0
-            while pointer < len(current_col):
-
-                if pointer != len(current_col) - 1:
-                    if current_col[pointer] == current_col[pointer + 1]:
-                        new_col.append(current_col[pointer] * 2)
-                        pointer += 2
-                    else:
-                        new_col.append(current_col[pointer])
-                        pointer += 1
-                else:
-                    new_col.append(current_col[pointer])
-                    pointer += 1
+            new_col = self.condense_row(current_col)
 
             if reversed:
                 new_col = new_col[::-1]
@@ -189,9 +192,7 @@ class Grid:
             new_row_tiles = self.list_to_col(new_col, col, reversed)
             new_tiles.update(new_row_tiles)
 
-        self.tiles = new_tiles
-        self.add_random_cell()
-        return self.tiles
+        return new_tiles
 
     def move_horizontal(self, reversed=False):
         '''
@@ -215,21 +216,7 @@ class Grid:
             if reversed:
                 current_row = current_row[::-1]
             
-            new_row = []
-
-            pointer = 0
-            while pointer < len(current_row):
-
-                if pointer != len(current_row) - 1:
-                    if current_row[pointer] == current_row[pointer + 1]:
-                        new_row.append(current_row[pointer] * 2)
-                        pointer += 2
-                    else:
-                        new_row.append(current_row[pointer])
-                        pointer += 1
-                else:
-                    new_row.append(current_row[pointer])
-                    pointer += 1
+            new_row = self.condense_row(current_row)
 
             if reversed:
                 new_row = new_row[::-1]
@@ -238,20 +225,57 @@ class Grid:
             new_row_tiles = self.list_to_row(new_row, row, reversed)
             new_tiles.update(new_row_tiles)
 
+        return new_tiles
+    
+    def update_grid(self, tile_set):
+        '''updates and adds new tile if there is a change, otherwise returns False'''
+        if tile_set != self.tiles:
+            self.tiles = tile_set
+            self.add_random_cell()
+            if self.any_valid_moves():
+                return True
+            else:
+                raise NotImplementedError
+        else:
+            return False
             
+    
+    def move_left(self, update=True):
+        '''
+        makes left move
+        if update = True, this updates self.tiles and adds a tile if there is a change
+        if update = False, this just returns True / False depending on whether the grid changes or not
+        '''
+        new_grid = self.move_horizontal(reversed=False)
 
-        self.tiles = new_tiles
-        self.add_random_cell()
-        return self.tiles
+        if update == True:
+            return self.update_grid(new_grid)
+        else:
+            return self.tiles == new_grid
     
-    def move_left(self):
-        return self.move_horizontal(reversed=False)
-    
-    def move_right(self):
-        return self.move_horizontal(reversed=True)
+    def move_right(self, update=True):
 
-    def move_up(self):
-        return self.move_vertical(reversed=False)
+        new_grid = self.move_horizontal(reversed=True)
+
+        if update == True:
+            return self.update_grid(new_grid)
+        else:
+            return self.tiles == new_grid
+
+    def move_up(self, update=True):
+
+        new_grid = self.move_vertical(reversed=False)
+
+        if update == True:
+            return self.update_grid(new_grid)
+        else:
+            return self.tiles == new_grid
     
-    def move_down(self):
-        return self.move_vertical(reversed=True)
+    def move_down(self, update=True):
+
+        new_grid = self.move_vertical(reversed=True)
+
+        if update == True:
+            return self.update_grid(new_grid)
+        else:
+            return self.tiles == new_grid
