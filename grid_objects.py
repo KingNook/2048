@@ -1,5 +1,5 @@
 import numpy as np
-import random
+import secrets
 
 class Tile:
     '''
@@ -131,9 +131,7 @@ class Grid:
             # no empty cells, shouldn't be called but this is here just incase - most notimplementederrors will be replaced with game ends once that is implemented
             raise NotImplementedError
         
-        choices = random.choice(list(choices))
-        choice = choices[0]
-
+        choice = secrets.choice(list(choices))
         self.tiles[choice] = Tile(self.initial_cell_value)
         
         return self.tiles
