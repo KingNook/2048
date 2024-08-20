@@ -20,12 +20,16 @@ def on_press(key):
             grid.move_down()
         elif key.char == 'd':
             grid.move_right()
-        elif key.char == 'p':
-            grid.add_random_cell()
 
     except AttributeError:
-        print('special key {0} pressed'.format(
-            key))
+        if key == keyboard.Key.up:
+            grid.move_up()
+        elif key == keyboard.Key.left:
+            grid.move_left()
+        elif key == keyboard.Key.down:
+            grid.move_down()
+        elif key == keyboard.Key.right:
+            grid.move_right()
 
 def on_release(key):
 
