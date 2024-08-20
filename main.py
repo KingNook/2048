@@ -1,8 +1,7 @@
 import numpy as np
 
-from pynput import mouse, keyboard
-
-from grid_objects import Grid, Tile
+from pynput import keyboard
+from grid_objects import Grid
 
 # 4x4 grid
 grid = Grid(4)
