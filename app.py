@@ -70,7 +70,21 @@ while alive:
 
     screen.fill(colors.IVORY)
 
-    # blit items
+    # ---------------
+    # DRAW BACKGROUND
+    # ---------------
+
+    # ----------
+    # DRAW TILES
+    # ----------
     
+    for tile_coord, tile_value in grid.tiles.items():
+        tile_style = colors.TILE_STYLES[tile_value]
+        # NEED TO REPLACE LEFT_TOP TO THE CORRECT TOP LEFT COORD (DONE BY GRID COORD TO PYGAME COORD)
+        pygame.draw.rect(
+            screen, tile_style[0],
+            [50, 100, colors.TILE_SIZE, colors.TILE_SIZE], 0
+        ) # [left, top, width, height]
+
 
     pygame.display.flip()

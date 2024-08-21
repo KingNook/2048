@@ -49,3 +49,5 @@ should be a quick project - i give this 2 weeks of serious effort
 - made pygame window, moved to using pygame for key handling
 - removed Tile class, have broken something (move_right specifically seems to be broken for some reason) - will have to figure out how to fix at some point
 - ok the fix now works; turns out the bug was there all along lol (i was flipping the row when doing 'reversed' movements)
+
+- todo: make some sort of grid_coord -> pygame_coord system
