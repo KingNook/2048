@@ -44,3 +44,6 @@ should be a quick project - i give this 2 weeks of serious effort
 - now ends the game when there are no valid moves
 
 - would like to remove tile class and replace with ints but am worried that the class may come in handy later for rendering so i'll keep it for now then once the rendering is done, if that doesn't use the tile rendering i'll remove the class
+
+## day 6
+- made pygame window, moved to using pygame for key handling

@@ -5,7 +5,6 @@ from grid_objects import Grid
 
 # 4x4 grid
 grid = Grid(4)
-
 grid.add_random_cell()
 
 print(grid)
