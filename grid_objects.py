@@ -35,7 +35,7 @@ class Grid:
         new_row = dict()
         for col in range(len(lst)):
             if reversed:
-                new_row[(row, self.size - 1 - col)] = lst[col]
+                new_row[(row, self.size - len(lst) + col)] = lst[col]
             else:
                 new_row[(row, col)] = lst[col]
 
@@ -45,7 +45,7 @@ class Grid:
         new_col = dict()
         for row in range(len(lst)):
             if reversed:
-                new_col[(self.size - 1 - row, col)] = lst[row]
+                new_col[(self.size - len(lst) + row, col)] = lst[row]
             else:
                 new_col[(row, col)] = lst[row]
 
@@ -104,23 +104,32 @@ class Grid:
     ## GRID UPDATES
     ## ============
 
-    def condense_row(self, arr):
+    def condense_row(self, arr, reversed=False):
         '''condenses as if moving to the left, can reverse the array_like object beforehand if needed'''
+
+        if reversed:
+            old_arr = arr[::-1]
+        else:
+            old_arr = arr
+
         new_arr = []
         pointer = 0
-        while pointer < len(arr):
+        while pointer < len(old_arr):
 
-            if pointer != len(arr) - 1:
-                if arr[pointer] == arr[pointer + 1]:
-                    new_arr.append(arr[pointer] + 1)
+            if pointer != len(old_arr) - 1:
+                if old_arr[pointer] == old_arr[pointer + 1]:
+                    new_arr.append(old_arr[pointer] + 1)
                     pointer += 2
                 else:
-                    new_arr.append(arr[pointer])
+                    new_arr.append(old_arr[pointer])
                     pointer += 1
             else:
-                new_arr.append(arr[pointer])
+                new_arr.append(old_arr[pointer])
                 pointer += 1
 
+        if reversed:
+            new_arr = new_arr[::-1]
+        
         return new_arr
 
     def move_vertical(self, reversed=False):
@@ -139,15 +148,9 @@ class Grid:
                 cell = (row, col)
                 if cell in self.tiles.keys():
                     current_col.append(self.tiles[cell])
-
-            if reversed:
-                current_col = current_col[::-1]
             
             # now we combine   
-            new_col = self.condense_row(current_col)
-
-            if reversed:
-                new_col = new_col[::-1]
+            new_col = self.condense_row(current_col, reversed)
 
             # then create row dict from new_row
             new_row_tiles = self.list_to_col(new_col, col, reversed)
@@ -173,14 +176,8 @@ class Grid:
                     current_row.append(self.tiles[cell])
             
             # now we combine   
-
-            if reversed:
-                current_row = current_row[::-1]
             
-            new_row = self.condense_row(current_row)
-
-            if reversed:
-                new_row = new_row[::-1]
+            new_row = self.condense_row(current_row, reversed)
 
             # then create row dict from new_row
             new_row_tiles = self.list_to_row(new_row, row, reversed)
@@ -193,7 +190,9 @@ class Grid:
         if tile_set != self.tiles:
             self.tiles = tile_set
             self.add_random_cell()
-            if self.any_valid_moves():
+
+            valid_moves = self.any_valid_moves()
+            if valid_moves:
                 return True
             else:
                 raise NotImplementedError
