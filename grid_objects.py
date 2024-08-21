@@ -1,42 +1,5 @@
 import numpy as np
-import secrets
-
-class Tile:
-    '''
-    tile in 2048 - value should be a power of 2
-    '''
-
-
-    def __init__(self, value):
-
-        self.value = value
-
-    def __eq__(self, other):
-        '''where the other would also be a tile'''
-
-        if other.value == self.value:
-            return True
-
-        return False
-    
-    def __repr__(self):
-        return str(self.value)
-    
-    def __add__(self, num):
-        if type(num) == int:
-            return Tile(self.value + num)
-        
-        if type(num) == Tile:
-            return Tile(self.value + num.value)
-        
-    def __mul__(self, other):
-        if type(other) == int:
-            return Tile(self.value * other)
-        
-    def __rmul__(self, other):
-        if type(other) == int:
-            return Tile(self.value * other)
-        
+import secrets   
     
 class Grid:
     '''
@@ -54,13 +17,13 @@ class Grid:
         # will be coord: Tile
         self.tiles = dict()
 
-        self.initial_cell_value = 2
+        self.initial_cell_value = 1
 
     def __repr__(self):
 
         grid = np.zeros((self.size, self.size))
         for cell in self.tiles.keys():
-            grid[*cell] = self.tiles[cell].value
+            grid[*cell] = self.tiles[cell]
 
         return grid.__repr__()
     
@@ -109,7 +72,7 @@ class Grid:
             raise KeyError
         
         # set cell value to 1 (or whatever initial cell value we want - can add randomness later)
-        self.tiles[new_cell] = Tile(self.initial_cell_value)
+        self.tiles[new_cell] = self.initial_cell_value
 
     def get_empty_cells(self):
 
@@ -132,7 +95,7 @@ class Grid:
             raise NotImplementedError
         
         choice = secrets.choice(list(choices))
-        self.tiles[choice] = Tile(self.initial_cell_value)
+        self.tiles[choice] = self.initial_cell_value
         
         return self.tiles
         
@@ -149,7 +112,7 @@ class Grid:
 
             if pointer != len(arr) - 1:
                 if arr[pointer] == arr[pointer + 1]:
-                    new_arr.append(arr[pointer] * 2)
+                    new_arr.append(arr[pointer] + 1)
                     pointer += 2
                 else:
                     new_arr.append(arr[pointer])
