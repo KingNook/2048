@@ -17,6 +17,8 @@ class Grid:
         # will be coord: Tile
         self.tiles = dict()
 
+        self.score = 0
+
         self.initial_cell_value = 1
 
     def __repr__(self):
