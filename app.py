@@ -35,7 +35,7 @@ GRID_SIZE = TILE_SIZE*4 + GRID_LINE_WIDTH*3 + GRID_BORDER_WIDTH*2
 GRID_LEFT = (DIMENSIONS[0] - GRID_SIZE) // 2
 GRID_TOP = (DIMENSIONS[1] - GRID_SIZE) // 2
 
-TEST_FONT = pygame.font.SysFont('Webdings', int(TILE_SIZE*0.6))
+TEST_FONT = pygame.font.SysFont('Calibri', int(TILE_SIZE*0.6))
 screen = pygame.display.set_mode(DIMENSIONS)
 
 ## =============
@@ -122,6 +122,16 @@ while alive:
             width = 0, border_radius = BORDER_RADIUS
         )
 
+    # -----
+    # SCORE
+    # -----
+
+    score_text = TEST_FONT.render(
+        str(grid.score), True, colors.AFW
+    )
+
+    screen.blit(score_text, (10, 10))
+
     # ----------
     # DRAW TILES
     # ----------
@@ -138,7 +148,7 @@ while alive:
             width = 0, border_radius = BORDER_RADIUS
         )
 
-        # draw text
+        # draw tile text
         centre_coord = (
             pg_coord[0] + TILE_SIZE//2,
             pg_coord[1] + TILE_SIZE//2

@@ -106,7 +106,7 @@ class Grid:
     ## GRID UPDATES
     ## ============
 
-    def condense_row(self, arr, reversed=False):
+    def condense_row(self, arr, reversed=False, update_score=True):
         '''condenses as if moving to the left, can reverse the array_like object beforehand if needed'''
 
         if reversed:
@@ -122,6 +122,8 @@ class Grid:
                 if old_arr[pointer] == old_arr[pointer + 1]:
                     new_arr.append(old_arr[pointer] + 1)
                     pointer += 2
+                    if update_score:
+                        self.score += 2**new_arr[-1]
                 else:
                     new_arr.append(old_arr[pointer])
                     pointer += 1
@@ -134,7 +136,7 @@ class Grid:
         
         return new_arr
 
-    def move_vertical(self, reversed=False):
+    def move_vertical(self, reversed=False, update_score=True):
         '''
         by default moves tiles down
         reversed=True moves tiles up
@@ -152,7 +154,7 @@ class Grid:
                     current_col.append(self.tiles[cell])
             
             # now we combine   
-            new_col = self.condense_row(current_col, reversed)
+            new_col = self.condense_row(current_col, reversed, update_score)
 
             # then create row dict from new_row
             new_row_tiles = self.list_to_col(new_col, col, reversed)
@@ -160,7 +162,7 @@ class Grid:
 
         return new_tiles
 
-    def move_horizontal(self, reversed=False):
+    def move_horizontal(self, reversed=False, update_score=True):
         '''
         by default this moves tiles left
         reversed=True moves tiles right
@@ -179,7 +181,7 @@ class Grid:
             
             # now we combine   
             
-            new_row = self.condense_row(current_row, reversed)
+            new_row = self.condense_row(current_row, reversed, update_score)
 
             # then create row dict from new_row
             new_row_tiles = self.list_to_row(new_row, row, reversed)
@@ -208,7 +210,7 @@ class Grid:
         if update = True, this updates self.tiles and adds a tile if there is a change
         if update = False, this just returns True / False depending on whether the grid changes or not
         '''
-        new_grid = self.move_horizontal(reversed=False)
+        new_grid = self.move_horizontal(reversed=False, update_score=update)
 
         if update == True:
             return self.update_grid(new_grid)
@@ -217,7 +219,7 @@ class Grid:
     
     def move_right(self, update=True):
 
-        new_grid = self.move_horizontal(reversed=True)
+        new_grid = self.move_horizontal(reversed=True, update_score=update)
 
         if update == True:
             return self.update_grid(new_grid)
@@ -226,7 +228,7 @@ class Grid:
 
     def move_up(self, update=True):
 
-        new_grid = self.move_vertical(reversed=False)
+        new_grid = self.move_vertical(reversed=False, update_score=update)
 
         if update == True:
             return self.update_grid(new_grid)
@@ -235,7 +237,7 @@ class Grid:
     
     def move_down(self, update=True):
 
-        new_grid = self.move_vertical(reversed=True)
+        new_grid = self.move_vertical(reversed=True, update_score=update)
 
         if update == True:
             return self.update_grid(new_grid)
