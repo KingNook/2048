@@ -54,6 +54,7 @@ should be a quick project - i give this 2 weeks of serious effort
 
 ## day 7
 - game now has ui, mostly functional (need to remember to change font to something sensible at some point but webdings is fine for now)
+- now counts score and has a counter at the top
 
-- todo: add palette for the rest of the numbers (perhaps generative palette), implement proper game end (and retry functionality), adaptive font size, score, radomly spawning 4s occasionally, would be nice to have sliding animations eventually
+- todo: add palette for the rest of the numbers (perhaps generative palette), implement proper game end (and retry functionality), adaptive font size, radomly spawning 4s occasionally, would be nice to have sliding animations eventually, nice notifications (+n when adding score)
 - issues: occasionally ends game (valid_moves returns false) when it shouldn't
