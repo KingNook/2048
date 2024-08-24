@@ -62,7 +62,10 @@ for x in range(4):
 ## ===========
 
 grid = grid_objects.Grid(4)
-grid.add_random_cell()
+
+# grid.add_random_cell()
+grid.tiles = {(3, 3): 3, (2, 3): 1} # simplest case (or a simple case)
+# grid.tiles = {(3, 0): 3, (2, 0): 1, (0, 1):1} # simplest case (or a simple case)
 
 ## ==========
 ## GAME CYCLE
@@ -83,19 +86,22 @@ while alive:
                 alive = False
 
             elif event.key == K_UP or event.key == K_w:
+                print('w')
                 grid.move_up()
             elif event.key == K_LEFT or event.key == K_a:
+                print('a')
                 grid.move_left()
             elif event.key == K_DOWN or event.key == K_s:
+                print('s')
                 grid.move_down()
             elif event.key == K_RIGHT or event.key == K_d:
+                print('d')
                 grid.move_right()
 
         elif event.type == QUIT:
-
-            pygame.quit()
-
             alive = False
+            pygame.quit()
+            quit()
 
     ## ======
     ## RENDER

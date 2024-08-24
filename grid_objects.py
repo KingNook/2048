@@ -1,5 +1,7 @@
 import numpy as np
-import secrets   
+import secrets
+
+import random
     
 class Grid:
     '''
@@ -59,8 +61,24 @@ class Grid:
 
     def any_valid_moves(self):
         '''check to see if any viable moves are possible; returns bool'''
-        return not self.move_down(update=False) or self.move_left(update=False) or self.move_up(update=False) or self.move_right(update=False)
+        # return not self.move_down(update=False) or self.move_left(update=False) or self.move_up(update=False) or self.move_right(update=False)
+        # ok so i could just add a requirement for all tiles to be full first but this is 
 
+        up_possible = self.move_up(update=False)
+
+        if self.move_up(update=False):
+            return True
+        elif self.move_left(update=False):
+            return True
+        elif self.move_down(update=False):
+            return True
+        elif self.move_right(update=False):
+            return True
+        else:
+            print('no valid moves')
+            print(self.__repr__())
+            return False
+        
 
     ## =========
     ## ADD TILES
@@ -96,7 +114,7 @@ class Grid:
             # no empty cells, shouldn't be called but this is here just incase - most notimplementederrors will be replaced with game ends once that is implemented
             raise NotImplementedError
         
-        choice = secrets.choice(list(choices))
+        choice = random.choice(list(choices))
         self.tiles[choice] = self.initial_cell_value
         
         return self.tiles
@@ -154,7 +172,7 @@ class Grid:
                     current_col.append(self.tiles[cell])
             
             # now we combine   
-            new_col = self.condense_row(current_col, reversed, update_score)
+            new_col = self.condense_row(current_col, reversed=reversed, update_score=update_score)
 
             # then create row dict from new_row
             new_row_tiles = self.list_to_col(new_col, col, reversed)
@@ -180,7 +198,6 @@ class Grid:
                     current_row.append(self.tiles[cell])
             
             # now we combine   
-            
             new_row = self.condense_row(current_row, reversed, update_score)
 
             # then create row dict from new_row
@@ -194,11 +211,13 @@ class Grid:
         if tile_set != self.tiles:
             self.tiles = tile_set
             self.add_random_cell()
+            # self.add_cell(0, 1)
 
             valid_moves = self.any_valid_moves()
             if valid_moves:
                 return True
             else:
+                print(self.tiles)
                 raise NotImplementedError
         else:
             return False
@@ -210,36 +229,36 @@ class Grid:
         if update = True, this updates self.tiles and adds a tile if there is a change
         if update = False, this just returns True / False depending on whether the grid changes or not
         '''
-        new_grid = self.move_horizontal(reversed=False, update_score=update)
+        new_grid = self.move_horizontal(reversed=False)
 
         if update == True:
             return self.update_grid(new_grid)
         else:
-            return self.tiles == new_grid
+            return self.tiles != new_grid
     
     def move_right(self, update=True):
 
-        new_grid = self.move_horizontal(reversed=True, update_score=update)
+        new_grid = self.move_horizontal(reversed=True)
 
         if update == True:
             return self.update_grid(new_grid)
         else:
-            return self.tiles == new_grid
+            return self.tiles != new_grid
 
     def move_up(self, update=True):
 
-        new_grid = self.move_vertical(reversed=False, update_score=update)
+        new_grid = self.move_vertical(reversed=False)
 
         if update == True:
             return self.update_grid(new_grid)
         else:
-            return self.tiles == new_grid
+            return self.tiles != new_grid
     
     def move_down(self, update=True):
 
-        new_grid = self.move_vertical(reversed=True, update_score=update)
+        new_grid = self.move_vertical(reversed=True)
 
         if update == True:
             return self.update_grid(new_grid)
         else:
-            return self.tiles == new_grid
+            return self.tiles != new_grid

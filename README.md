@@ -58,3 +58,6 @@ should be a quick project - i give this 2 weeks of serious effort
 
 - todo: add palette for the rest of the numbers (perhaps generative palette), implement proper game end (and retry functionality), adaptive font size, radomly spawning 4s occasionally, would be nice to have sliding animations eventually, nice notifications (+n when adding score)
 - issues: occasionally ends game (valid_moves returns false) when it shouldn't
+
+## day 8
+- seems to be fixed
