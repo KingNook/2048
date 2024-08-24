@@ -62,3 +62,6 @@ should be a quick project - i give this 2 weeks of serious effort
 ## day 8
 - fixed issue [#1](https://github.com/KingNook/2048/issues/1)
 - add default style for when exceeding largest tile defined in palette
+- add randomly spawning 4 tiles (currently P(spawn 4)=0.2 but can adjust either default setting or when creating Grid object)
+
+- todo: reactive display (allow window to be resized, scale / move ui components as required)

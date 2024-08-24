@@ -10,7 +10,11 @@ class Grid:
     ## CLASS FUNCTIONS
     ## ===============
 
-    def __init__(self, size):
+    def __init__(self, size, ltc=0.2):
+        '''
+        size = size of grid (nxn square grid)
+        ltc = 'large tile chance' ie chance of spawning a 4 tile instead of a 2
+        '''
 
         self.size = size
 
@@ -20,6 +24,7 @@ class Grid:
         self.score = 0
 
         self.initial_cell_value = 1
+        self.large_tile_chance = ltc
 
     def __repr__(self):
 
@@ -82,7 +87,24 @@ class Grid:
     ## ADD TILES
     ## =========
 
+    def new_tile_size(self):
+        '''
+        returns either initial_cell_value or double that depending on self.large_tile_chance
+        '''
+
+        p = random.random()
+        print(f'{p} // {self.large_tile_chance} // {p <= self.large_tile_chance}')
+        
+        if p <= self.large_tile_chance:
+            return self.initial_cell_value + 1
+        else:
+            return self.initial_cell_value
+
     def add_cell(self, row, col):
+        '''
+        note this is not used anymore in the code, but i have left it here for debugging purposes
+        '''
+
         new_cell = (row, col)
 
         # check cell is empty
@@ -90,7 +112,7 @@ class Grid:
             raise KeyError
         
         # set cell value to 1 (or whatever initial cell value we want - can add randomness later)
-        self.tiles[new_cell] = self.initial_cell_value
+        self.tiles[new_cell] = self.new_tile_size()
 
     def get_empty_cells(self):
 
@@ -113,7 +135,9 @@ class Grid:
             raise NotImplementedError
         
         choice = random.choice(list(choices))
-        self.tiles[choice] = self.initial_cell_value
+
+        new_tile = self.new_tile_size()
+        self.tiles[choice] = new_tile
         
         return self.tiles
         
