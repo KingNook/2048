@@ -214,7 +214,6 @@ class Grid:
             if valid_moves:
                 return True
             else:
-                print(self.tiles)
                 raise NotImplementedError
         else:
             return False

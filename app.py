@@ -84,16 +84,12 @@ while alive:
                 alive = False
 
             elif event.key == K_UP or event.key == K_w:
-                print('w')
                 grid.move_up()
             elif event.key == K_LEFT or event.key == K_a:
-                print('a')
                 grid.move_left()
             elif event.key == K_DOWN or event.key == K_s:
-                print('s')
                 grid.move_down()
             elif event.key == K_RIGHT or event.key == K_d:
-                print('d')
                 grid.move_right()
 
         elif event.type == QUIT:
