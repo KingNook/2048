@@ -1,6 +1,4 @@
 import numpy as np
-import secrets
-
 import random
     
 class Grid:

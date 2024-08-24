@@ -142,7 +142,11 @@ while alive:
     
     for tile_coord, tile_value in grid.tiles.items():
 
-        tile_style = colors.TILE_STYLES[tile_value]
+        try:
+            tile_style = colors.TILE_STYLES[tile_value]
+        except KeyError:
+            tile_style = colors.DEFAULT_STYLE
+
         pg_coord = coord_to_pygame(tile_coord)
 
         # draw tile

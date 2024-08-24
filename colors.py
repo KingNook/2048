@@ -26,6 +26,8 @@ OPEEL = from_hex('FFA000') # orange peel // 16
 CRORANGE = from_hex('FF4F00') # crayola orange // 32
 ASORANGE = from_hex('FF4F00') # aerospace orange // 64
 
+DTILE = from_hex('02111B') # default tile color (for tiles larger than defined in palette)
+
 # map each tile <value> : (color, font_color, font_size)
 TILE_STYLES = {
     1:(AFW, DTEXT, FONT_SIZE),
@@ -35,3 +37,5 @@ TILE_STYLES = {
     5:(CRORANGE, LTEXT, FONT_SIZE),
     6:(ASORANGE, LTEXT, FONT_SIZE)
 }
+
+DEFAULT_STYLE = (DTILE, LTEXT, FONT_SIZE)

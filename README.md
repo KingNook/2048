@@ -60,4 +60,5 @@ should be a quick project - i give this 2 weeks of serious effort
 - issues: occasionally ends game (valid_moves returns false) when it shouldn't
 
 ## day 8
-- seems to be fixed
+- fixed issue [#1](https://github.com/KingNook/2048/issues/1)
+- add default style for when exceeding largest tile defined in palette
