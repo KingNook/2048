@@ -93,7 +93,6 @@ class Grid:
         '''
 
         p = random.random()
-        print(f'{p} // {self.large_tile_chance} // {p <= self.large_tile_chance}')
         
         if p <= self.large_tile_chance:
             return self.initial_cell_value + 1
@@ -136,8 +135,7 @@ class Grid:
         
         choice = random.choice(list(choices))
 
-        new_tile = self.new_tile_size()
-        self.tiles[choice] = new_tile
+        self.tiles[choice] = self.new_tile_size()
         
         return self.tiles
         
