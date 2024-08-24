@@ -26,6 +26,8 @@ class Grid:
         self.initial_cell_value = 1
         self.large_tile_chance = ltc
 
+        self.alive = True
+
     def __repr__(self):
 
         grid = np.zeros((self.size, self.size))
@@ -33,6 +35,17 @@ class Grid:
             grid[*cell] = self.tiles[cell]
 
         return grid.__repr__()
+    
+    def reset_grid(self):
+        
+        self.tiles = dict()
+        self.score = 0
+        
+        self.alive = True
+        self.add_random_cell()
+        self.add_random_cell()
+
+        return self.tiles
     
     ## ==============
     ## MISC FUNCTIONS
@@ -236,7 +249,8 @@ class Grid:
             if valid_moves:
                 return True
             else:
-                raise NotImplementedError
+                # raise NotImplementedError
+                self.alive = False
         else:
             return False
             

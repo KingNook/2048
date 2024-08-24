@@ -5,15 +5,20 @@ hex codes for various colors
 names and hex codes from https://coolors.co
 '''
 
-def from_hex(color):
+def from_hex(color, alpha=255):
     '''convert 6-digit hex code to (r, g, b) for use in pygame'''
 
-    return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:], 16))
+    if alpha != 255:
+        return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:], 16), alpha)
+    else:
+        return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:], 16))
 
 # constants
 FONT_SIZE = 32
 
 # colors
+
+# RGB
 LGRAY = from_hex('9C969A') # lighter taupe gray // unfilled boxes
 DTEXT = from_hex('544F52') # davy's gray // dark text
 TGRAY = from_hex('8B8589') # taupe gray // gridlines
@@ -25,8 +30,10 @@ JASMINE = from_hex('F6CE79') # 8
 OPEEL = from_hex('FFA000') # orange peel // 16
 CRORANGE = from_hex('FF4F00') # crayola orange // 32
 ASORANGE = from_hex('FF4F00') # aerospace orange // 64
-
 DTILE = from_hex('02111B') # default tile color (for tiles larger than defined in palette)
+
+# RGBA
+GAME_OVER = from_hex('D9DBBC', alpha=127) # sandy brown // game over screen (will be slightly transparent)
 
 # map each tile <value> : (color, font_color, font_size)
 TILE_STYLES = {

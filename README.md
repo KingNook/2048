@@ -56,12 +56,14 @@ should be a quick project - i give this 2 weeks of serious effort
 - game now has ui, mostly functional (need to remember to change font to something sensible at some point but webdings is fine for now)
 - now counts score and has a counter at the top
 
-- todo: add palette for the rest of the numbers (perhaps generative palette), implement proper game end (and retry functionality), adaptive font size, radomly spawning 4s occasionally, would be nice to have sliding animations eventually, nice notifications (+n when adding score)
+- todo: add palette for the rest of the numbers (perhaps generative palette), implement proper game end (and retry functionality), adaptive font size, randomly spawning 4s occasionally, would be nice to have sliding animations eventually, nice notifications (+n when adding score)
 - issues: occasionally ends game (valid_moves returns false) when it shouldn't
 
 ## day 8
 - fixed issue [#1](https://github.com/KingNook/2048/issues/1)
 - add default style for when exceeding largest tile defined in palette
 - add randomly spawning 4 tiles (currently P(spawn 4)=0.2 but can adjust either default setting or when creating Grid object)
+- now has an alive status on top right and can restart (when dead) by pressing r - requires ui update (prettify alive status, give proper reset, perhaps max score?) - removed the alive status (but functionality is still there)
+- now displays game over message when losing
 
 - todo: reactive display (allow window to be resized, scale / move ui components as required)

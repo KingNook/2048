@@ -8,6 +8,8 @@ from pygame.locals import (
     K_a,
     K_s,
     K_d,
+    K_r,
+    K_k,
     K_ESCAPE,
     KEYDOWN,
     QUIT
@@ -62,8 +64,7 @@ for x in range(4):
 ## ===========
 
 grid = grid_objects.Grid(4)
-
-grid.add_random_cell()
+grid.reset_grid()
 
 ## ==========
 ## GAME CYCLE
@@ -91,6 +92,13 @@ while alive:
                 grid.move_down()
             elif event.key == K_RIGHT or event.key == K_d:
                 grid.move_right()
+
+            elif event.key == K_r and grid.alive == False:
+                grid.reset_grid()
+
+            # for debugging purposes
+            elif event.key == K_k:
+                grid.alive = not grid.alive
 
         elif event.type == QUIT:
             alive = False
@@ -166,5 +174,39 @@ while alive:
 
         screen.blit(tile_text, text_rect)
 
+    # ---------
+    # GAME OVER
+    # ---------
 
+    if grid.alive == False:
+
+        game_over_surface = pygame.Surface(
+            (GRID_SIZE, GRID_SIZE), pygame.SRCALPHA
+        )
+
+        # overlay
+        pygame.draw.rect(
+            game_over_surface, colors.GAME_OVER,
+            game_over_surface.get_rect(), border_radius=BORDER_RADIUS
+        )
+
+        # game over text
+        centre_coord = (
+            GRID_SIZE // 2,
+            GRID_SIZE // 2
+        )
+
+        game_over_text = TEST_FONT.render(
+            'Game Over', True, colors.DTEXT
+        )
+
+        text_rect = game_over_text.get_rect(center = centre_coord)
+
+        game_over_surface.blit(game_over_text, text_rect)
+
+        screen.blit(game_over_surface, (GRID_LEFT, GRID_TOP))
+
+
+    # ===================
     pygame.display.flip()
+    # ===================
