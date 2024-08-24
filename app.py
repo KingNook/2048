@@ -63,9 +63,7 @@ for x in range(4):
 
 grid = grid_objects.Grid(4)
 
-# grid.add_random_cell()
-grid.tiles = {(3, 3): 3, (2, 3): 1} # simplest case (or a simple case)
-# grid.tiles = {(3, 0): 3, (2, 0): 1, (0, 1):1} # simplest case (or a simple case)
+grid.add_random_cell()
 
 ## ==========
 ## GAME CYCLE

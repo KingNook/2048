@@ -211,7 +211,6 @@ class Grid:
         if tile_set != self.tiles:
             self.tiles = tile_set
             self.add_random_cell()
-            # self.add_cell(0, 1)
 
             valid_moves = self.any_valid_moves()
             if valid_moves:
