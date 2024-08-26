@@ -66,4 +66,7 @@ should be a quick project - i give this 2 weeks of serious effort
 - now has an alive status on top right and can restart (when dead) by pressing r - requires ui update (prettify alive status, give proper reset, perhaps max score?) - removed the alive status (but functionality is still there)
 - now displays game over message when losing
 
-- todo: reactive display (allow window to be resized, scale / move ui components as required)
+- todo: reactive display (allow window to be resized, scale / move ui components as required), pop this onto a github pages
+
+# a plan
+can make multiplayer 2048 similar to tetris whereby you can join a lobby, there is some sort of interaction (occasionally adding random tiles to other players' boards perhaps? based off some condition eg at certain score intervals)

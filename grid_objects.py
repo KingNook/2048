@@ -143,7 +143,7 @@ class Grid:
         choices = self.get_empty_cells()
 
         if len(choices) == 0:
-            # no empty cells, shouldn't be called but this is here just incase - most notimplementederrors will be replaced with game ends once that is implemented
+            # should replace with more descriptive exception
             raise NotImplementedError
         
         choice = random.choice(list(choices))
@@ -190,6 +190,7 @@ class Grid:
     def move_vertical(self, reversed=False, update_score=True):
         '''
         by default moves tiles down
+
         reversed=True moves tiles up
         '''
 
@@ -216,6 +217,7 @@ class Grid:
     def move_horizontal(self, reversed=False, update_score=True):
         '''
         by default this moves tiles left
+
         reversed=True moves tiles right
         '''
 
@@ -249,7 +251,6 @@ class Grid:
             if valid_moves:
                 return True
             else:
-                # raise NotImplementedError
                 self.alive = False
         else:
             return False
@@ -258,7 +259,9 @@ class Grid:
     def move_left(self, update=True):
         '''
         makes left move
+
         if update = True, this updates self.tiles and adds a tile if there is a change
+        
         if update = False, this just returns True / False depending on whether the grid changes or not
         '''
         new_grid = self.move_horizontal(reversed=False)
