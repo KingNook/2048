@@ -1,4 +1,6 @@
+import numpy
 import pygame
+import sys
 from pygame.locals import (
     K_UP,
     K_DOWN,
@@ -54,11 +56,11 @@ def coord_to_pygame(coord):
         GRID_TOP + GRID_BORDER_WIDTH + (GRID_LINE_WIDTH + TILE_SIZE)*coord[0]
     )
 
-coord_to_pg = dict()
+COORD_TO_PG = dict()
 
 for x in range(4):
     for y in range(4):
-        coord_to_pg[(x, y)] = coord_to_pygame((x, y))
+        COORD_TO_PG[(x, y)] = coord_to_pygame((x, y))
 
 ## ===========
 ## DEFINITIONS
@@ -73,6 +75,8 @@ grid.reset_grid()
 
 alive = True
 async def main():
+    global alive, grid, screen
+    global DIMENSIONS, BORDER_RADIUS, TILE_SIZE, GRID_LINE_WIDTH, GRID_BORDER_WIDTH, GRID_SIZE, GRID_LEFT, GRID_TOP, TEST_FONT, COORD_TO_PG
 
     while alive:
 
@@ -105,7 +109,7 @@ async def main():
 
             elif event.type == QUIT:
                 alive = False
-                return
+                sys.exit()
 
         ## ======
         ## RENDER
@@ -125,7 +129,7 @@ async def main():
         )
 
         # empty tiles
-        for pg_coord in coord_to_pg.values():
+        for pg_coord in COORD_TO_PG.values():
             pygame.draw.rect(
                 screen, colors.LGRAY,
                 pygame.Rect(pg_coord[0], pg_coord[1], TILE_SIZE, TILE_SIZE),
@@ -214,8 +218,9 @@ async def main():
         # ===================
 
         await asyncio.sleep(0)
-
-        if not alive:
-            return
         
-asyncio.run(main())
+    pygame.quit()
+    sys.exit()
+
+if __name__ == '__main__':
+    asyncio.run(main())
