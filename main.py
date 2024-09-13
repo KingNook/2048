@@ -43,6 +43,22 @@ GRID_TOP = (DIMENSIONS[1] - GRID_SIZE) // 2
 TEST_FONT = pygame.font.SysFont('Calibri', int(TILE_SIZE*0.6))
 screen = pygame.display.set_mode(DIMENSIONS)
 
+GRID_CENTRE = (
+    GRID_SIZE // 2,
+    GRID_SIZE // 2
+)
+
+def get_centre_coords(pg_coords):
+    '''
+    given pygame (pixel) coordinates for the top-left of a square, return the coordinates of the centre of the square
+    '''
+
+    return (
+        pg_coords[0] + TILE_SIZE // 2,
+        pg_coords[1] + TILE_SIZE // 2
+    )
+
+
 ## =============
 ## ONE OFF STUFF
 ## =============
@@ -176,7 +192,7 @@ async def main():
                 str(2**tile_value), True, tile_style[1]
             )
 
-            text_rect = tile_text.get_rect(center = centre_coord)
+            text_rect = tile_text.get_rect(center = get_centre_coords())
 
             screen.blit(tile_text, text_rect)
 
@@ -195,18 +211,13 @@ async def main():
                 game_over_surface, colors.GAME_OVER,
                 game_over_surface.get_rect(), border_radius=BORDER_RADIUS
             )
-
-            # game over text
-            centre_coord = (
-                GRID_SIZE // 2,
-                GRID_SIZE // 2
-            )
+            
 
             game_over_text = TEST_FONT.render(
                 'Game Over', True, colors.DTEXT
             )
 
-            text_rect = game_over_text.get_rect(center = centre_coord)
+            text_rect = game_over_text.get_rect(center = GRID_CENTRE)
 
             game_over_surface.blit(game_over_text, text_rect)
 
