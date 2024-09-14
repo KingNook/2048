@@ -178,6 +178,29 @@ def draw_tiles():
 
         screen.blit(tile_text, text_rect)
 
+def game_over_handler():
+    if grid.alive == False:
+
+        game_over_surface = pygame.Surface(
+            (GRID_SIZE, GRID_SIZE), pygame.SRCALPHA
+        )
+
+        # overlay
+        pygame.draw.rect(
+            game_over_surface, colors.GAME_OVER,
+            game_over_surface.get_rect(), border_radius=BORDER_RADIUS
+        )
+        
+
+        game_over_text = TEST_FONT.render(
+            'Game Over', True, colors.DTEXT
+        )
+
+        text_rect = game_over_text.get_rect(center = GRID_CENTRE)
+
+        game_over_surface.blit(game_over_text, text_rect)
+
+        screen.blit(game_over_surface, (GRID_LEFT, GRID_TOP))
 
 ## ==========
 ## GAME CYCLE
@@ -202,40 +225,8 @@ async def main():
 
         draw_background()
         draw_score_text()
-
-        # ----------
-        # DRAW TILES
-        # ----------
-        
         draw_tiles()
-
-        # ---------
-        # GAME OVER
-        # ---------
-
-        if grid.alive == False:
-
-            game_over_surface = pygame.Surface(
-                (GRID_SIZE, GRID_SIZE), pygame.SRCALPHA
-            )
-
-            # overlay
-            pygame.draw.rect(
-                game_over_surface, colors.GAME_OVER,
-                game_over_surface.get_rect(), border_radius=BORDER_RADIUS
-            )
-            
-
-            game_over_text = TEST_FONT.render(
-                'Game Over', True, colors.DTEXT
-            )
-
-            text_rect = game_over_text.get_rect(center = GRID_CENTRE)
-
-            game_over_surface.blit(game_over_text, text_rect)
-
-            screen.blit(game_over_surface, (GRID_LEFT, GRID_TOP))
-
+        game_over_handler()
 
         # ===================
         pygame.display.flip()
