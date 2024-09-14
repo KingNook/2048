@@ -199,16 +199,7 @@ async def main():
         ## RENDER
         ## ======
 
-        # ---------------
-        # DRAW BACKGROUND
-        # ---------------
-
         draw_background()
-
-        # -----
-        # SCORE
-        # -----
-
         draw_score_text()
 
         # ----------
