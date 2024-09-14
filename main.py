@@ -182,17 +182,11 @@ async def main():
                 width = 0, border_radius = BORDER_RADIUS
             )
 
-            # draw tile text
-            centre_coord = (
-                pg_coord[0] + TILE_SIZE//2,
-                pg_coord[1] + TILE_SIZE//2
-            )
-
             tile_text = TEST_FONT.render(
                 str(2**tile_value), True, tile_style[1]
             )
 
-            text_rect = tile_text.get_rect(center = get_centre_coords())
+            text_rect = tile_text.get_rect(center = get_centre_coords(pg_coord))
 
             screen.blit(tile_text, text_rect)
 
