@@ -85,6 +85,30 @@ for x in range(4):
 grid = grid_objects.Grid(4)
 grid.reset_grid()
 
+## ================
+## RENDER FUNCTIONS
+## ================
+
+def draw_background():
+    screen.fill(colors.IVORY)
+        
+    # grid background
+    pygame.draw.rect(
+        screen, colors.TGRAY,
+        pygame.Rect(GRID_LEFT, GRID_TOP, GRID_SIZE, GRID_SIZE),
+        width = 0, border_radius = BORDER_RADIUS
+    )
+
+    # empty tiles
+    for pg_coord in COORD_TO_PG.values():
+        pygame.draw.rect(
+            screen, colors.LGRAY,
+            pygame.Rect(pg_coord[0], pg_coord[1], TILE_SIZE, TILE_SIZE),
+            width = 0, border_radius = BORDER_RADIUS
+        )
+
+    return True
+
 ## ==========
 ## GAME CYCLE
 ## ==========
@@ -135,22 +159,7 @@ async def main():
         # DRAW BACKGROUND
         # ---------------
 
-        screen.fill(colors.IVORY)
-        
-        # grid background
-        pygame.draw.rect(
-            screen, colors.TGRAY,
-            pygame.Rect(GRID_LEFT, GRID_TOP, GRID_SIZE, GRID_SIZE),
-            width = 0, border_radius = BORDER_RADIUS
-        )
-
-        # empty tiles
-        for pg_coord in COORD_TO_PG.values():
-            pygame.draw.rect(
-                screen, colors.LGRAY,
-                pygame.Rect(pg_coord[0], pg_coord[1], TILE_SIZE, TILE_SIZE),
-                width = 0, border_radius = BORDER_RADIUS
-            )
+        draw_background()
 
         # -----
         # SCORE
