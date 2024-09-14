@@ -228,9 +228,7 @@ async def main():
         draw_tiles()
         game_over_handler()
 
-        # ===================
         pygame.display.flip()
-        # ===================
 
         await asyncio.sleep(0)
         
