@@ -85,6 +85,38 @@ for x in range(4):
 grid = grid_objects.Grid(4)
 grid.reset_grid()
 
+## ==========
+## GAME LOGIC
+## ==========
+
+def handle_peripheral_events():
+    for event in pygame.event.get():
+
+        if event.type == KEYDOWN:
+
+            if event.key == K_ESCAPE:
+                alive = False
+
+            elif event.key == K_UP or event.key == K_w:
+                grid.move_up()
+            elif event.key == K_LEFT or event.key == K_a:
+                grid.move_left()
+            elif event.key == K_DOWN or event.key == K_s:
+                grid.move_down()
+            elif event.key == K_RIGHT or event.key == K_d:
+                grid.move_right()
+
+            elif event.key == K_r and grid.alive == False:
+                grid.reset_grid()
+
+            # for debugging purposes
+            elif event.key == K_k:
+                grid.alive = not grid.alive
+
+        elif event.type == QUIT:
+            alive = False
+            sys.exit()
+
 ## ================
 ## RENDER FUNCTIONS
 ## ================
@@ -135,32 +167,7 @@ async def main():
         ## KEY HANDLING
         ## ============
 
-        for event in pygame.event.get():
-
-            if event.type == KEYDOWN:
-
-                if event.key == K_ESCAPE:
-                    alive = False
-
-                elif event.key == K_UP or event.key == K_w:
-                    grid.move_up()
-                elif event.key == K_LEFT or event.key == K_a:
-                    grid.move_left()
-                elif event.key == K_DOWN or event.key == K_s:
-                    grid.move_down()
-                elif event.key == K_RIGHT or event.key == K_d:
-                    grid.move_right()
-
-                elif event.key == K_r and grid.alive == False:
-                    grid.reset_grid()
-
-                # for debugging purposes
-                elif event.key == K_k:
-                    grid.alive = not grid.alive
-
-            elif event.type == QUIT:
-                alive = False
-                sys.exit()
+        handle_peripheral_events()
 
         ## ======
         ## RENDER
