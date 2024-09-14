@@ -90,6 +90,7 @@ grid.reset_grid()
 ## ================
 
 def draw_background():
+    '''se'''
     screen.fill(colors.IVORY)
         
     # grid background
@@ -106,6 +107,16 @@ def draw_background():
             pygame.Rect(pg_coord[0], pg_coord[1], TILE_SIZE, TILE_SIZE),
             width = 0, border_radius = BORDER_RADIUS
         )
+
+    return True
+
+def draw_score_text():
+    '''se'''
+    score_text = TEST_FONT.render(
+        str(grid.score), True, colors.AFW
+    )
+
+    screen.blit(score_text, (10, 10))
 
     return True
 
@@ -165,11 +176,7 @@ async def main():
         # SCORE
         # -----
 
-        score_text = TEST_FONT.render(
-            str(grid.score), True, colors.AFW
-        )
-
-        screen.blit(score_text, (10, 10))
+        draw_score_text()
 
         # ----------
         # DRAW TILES
