@@ -155,6 +155,7 @@ def draw_score_text():
 def draw_tiles():
     for tile_coord, tile_value in grid.tiles.items():
 
+        # replace with match case? seems better. or perhaps a regular check
         try:
             tile_style = colors.TILE_STYLES[tile_value]
         except KeyError:
