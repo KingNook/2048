@@ -63,7 +63,6 @@ def get_centre_coords(pg_coords):
 ## ONE OFF STUFF
 ## =============
 
-
 def coord_to_pygame(coord):
     '''converts (x, y) grid coord to pygame coords'''
 
@@ -72,6 +71,7 @@ def coord_to_pygame(coord):
         GRID_TOP + GRID_BORDER_WIDTH + (GRID_LINE_WIDTH + TILE_SIZE)*coord[0]
     )
 
+# dictionary containing k-v pairs grid coordinate : pygame (pixel) coordinate
 COORD_TO_PG = dict()
 
 for x in range(4):
