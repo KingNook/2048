@@ -20,6 +20,7 @@ from pygame.locals import (
 import asyncio
 
 import colors
+
 import grid_objects
 
 pygame.init()
@@ -27,26 +28,6 @@ pygame.init()
 ## =========
 ## CONSTANTS
 ## =========
-
-DIMENSIONS = (800, 600)
-
-BORDER_RADIUS = 10
-
-TILE_SIZE = 80
-GRID_LINE_WIDTH = 15
-GRID_BORDER_WIDTH = 15
-GRID_SIZE = TILE_SIZE*4 + GRID_LINE_WIDTH*3 + GRID_BORDER_WIDTH*2
-
-GRID_LEFT = (DIMENSIONS[0] - GRID_SIZE) // 2
-GRID_TOP = (DIMENSIONS[1] - GRID_SIZE) // 2
-
-TEST_FONT = pygame.font.SysFont('Calibri', int(TILE_SIZE*0.6))
-screen = pygame.display.set_mode(DIMENSIONS)
-
-GRID_CENTRE = (
-    GRID_SIZE // 2,
-    GRID_SIZE // 2
-)
 
 def get_centre_coords(pg_coords):
     '''
@@ -57,7 +38,6 @@ def get_centre_coords(pg_coords):
         pg_coords[0] + TILE_SIZE // 2,
         pg_coords[1] + TILE_SIZE // 2
     )
-
 
 ## =============
 ## ONE OFF STUFF
@@ -82,8 +62,8 @@ for x in range(4):
 ## DEFINITIONS
 ## ===========
 
-grid = grid_objects.Grid(4)
-grid.reset_grid()
+grid = grid_objects.grid.Grid(4)
+grid.reset()
 
 ## ==========
 ## GAME LOGIC

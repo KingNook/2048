@@ -1,21 +1,41 @@
 import pygame
 
 import colors
-from grid_objects import Grid
 
 class GridRenderer:
     '''
     contains methods used for rendering the grid into a pygame window
 
-    grid : type Grid from grid_objects
+    board : Grid
     '''
 
-    def __init__(self, grid):
+    def __init__(self, board):
 
-        self.grid = grid
+        self.board = board
+        board.reset()
 
-    def draw_tiles(grid):
-        for tile_coord, tile_value in grid.tiles.items():
+        DIMENSIONS = (800, 600)
+
+        BORDER_RADIUS = 10
+
+        TILE_SIZE = 80
+        GRID_LINE_WIDTH = 15
+        GRID_BORDER_WIDTH = 15
+        GRID_SIZE = TILE_SIZE*4 + GRID_LINE_WIDTH*3 + GRID_BORDER_WIDTH*2
+
+        GRID_LEFT = (DIMENSIONS[0] - GRID_SIZE) // 2
+        GRID_TOP = (DIMENSIONS[1] - GRID_SIZE) // 2
+
+        TEST_FONT = pygame.font.SysFont('Calibri', int(TILE_SIZE*0.6))
+        screen = pygame.display.set_mode(DIMENSIONS)
+
+        GRID_CENTRE = (
+            GRID_SIZE // 2,
+            GRID_SIZE // 2
+        )
+
+    def draw_tiles(self):
+        for tile_coord, tile_value in self.board.tiles.items():
 
             # replace with match case? seems better. or perhaps a regular check
             try:
