@@ -29,6 +29,8 @@ pygame.init()
 ## CONSTANTS
 ## =========
 
+
+
 def get_centre_coords(pg_coords):
     '''
     given pygame (pixel) coordinates for the top-left of a square, return the coordinates of the centre of the square
@@ -39,31 +41,18 @@ def get_centre_coords(pg_coords):
         pg_coords[1] + TILE_SIZE // 2
     )
 
+
 ## =============
 ## ONE OFF STUFF
 ## =============
 
-def coord_to_pygame(coord):
-    '''converts (x, y) grid coord to pygame coords'''
-
-    return (
-        GRID_LEFT + GRID_BORDER_WIDTH + (GRID_LINE_WIDTH + TILE_SIZE)*coord[1],
-        GRID_TOP + GRID_BORDER_WIDTH + (GRID_LINE_WIDTH + TILE_SIZE)*coord[0]
-    )
-
-# dictionary containing k-v pairs grid coordinate : pygame (pixel) coordinate
-COORD_TO_PG = dict()
-
-for x in range(4):
-    for y in range(4):
-        COORD_TO_PG[(x, y)] = coord_to_pygame((x, y))
 
 ## ===========
 ## DEFINITIONS
 ## ===========
 
 grid = grid_objects.grid.Grid(4)
-grid.reset()
+grid.reset_grid()
 
 ## ==========
 ## GAME LOGIC
