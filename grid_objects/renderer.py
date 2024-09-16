@@ -101,11 +101,7 @@ class GridRenderer:
 
     def draw_tiles(self) -> None:
         for tile_coord, tile_value in self.board.tiles.items():
-
-            # replace with match case? seems better. or perhaps a regular check (or separate function)
-
             tile_style = self.get_tile_style(tile_value)
-            
             pg_coord = self.COORD_TO_PG[tile_coord]
 
             # draw tile
