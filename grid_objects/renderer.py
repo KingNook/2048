@@ -51,6 +51,8 @@ class GridRenderer:
             self.GRID_SIZE // 2
         )
 
+        self.setup_pg_to_coord()
+
         self.display = pygame.display.set_mode(self.DIMENSIONS)
 
     def grab_config(self, path):
@@ -102,9 +104,9 @@ class GridRenderer:
 
             # replace with match case? seems better. or perhaps a regular check (or separate function)
 
-            tile_style = self.get_tile_style()
+            tile_style = self.get_tile_style(tile_value)
             
-            pg_coord = self.COORD_TO_PG(tile_coord)
+            pg_coord = self.COORD_TO_PG[tile_coord]
 
             # draw tile
             tile = pygame.draw.rect(

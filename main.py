@@ -48,20 +48,20 @@ def handle_pygame_events(board):
                 alive = False
 
             elif event.key == K_UP or event.key == K_w:
-                grid.move_up()
+                board.move_up()
             elif event.key == K_LEFT or event.key == K_a:
-                grid.move_left()
+                board.move_left()
             elif event.key == K_DOWN or event.key == K_s:
-                grid.move_down()
+                board.move_down()
             elif event.key == K_RIGHT or event.key == K_d:
-                grid.move_right()
+                board.move_right()
 
-            elif event.key == K_r and grid.alive == False:
-                grid.reset_grid()
+            elif event.key == K_r and board.alive == False:
+                board.reset()
 
             # for debugging purposes
             elif event.key == K_k:
-                grid.alive = not grid.alive
+                board.alive = not board.alive
 
         elif event.type == QUIT:
             alive = False
