@@ -1,5 +1,21 @@
 import pygame
 
+from dataclasses import dataclass
+
+@dataclass
+class Color:
+    R: int
+    G: int
+    B: int
+    A: int
+
+@dataclass
+class TileStyle:
+    color: Color
+    font_color: Color
+    font_size: int
+
+
 '''
 hex codes for various colors
 names and hex codes from https://coolors.co
@@ -8,10 +24,7 @@ names and hex codes from https://coolors.co
 def from_hex(color, alpha=255):
     '''convert 6-digit hex code to (r, g, b) for use in pygame'''
 
-    if alpha != 255:
-        return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:], 16), alpha)
-    else:
-        return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:], 16))
+    return (int(color[0:2], 16), int(color[2:4], 16), int(color[4:], 16), alpha)
 
 # constants
 FONT_SIZE = 32

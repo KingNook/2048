@@ -1,10 +1,10 @@
 import pygame
 import typing
 
-from grid import Grid
+from .grid import Grid
 import colors
 
-from dataclasses import dataclass, astuple
+from dataclasses import dataclass
 
 @dataclass
 class Coord:
@@ -28,32 +28,30 @@ class GridRenderer:
         ):
 
         self.board = board
-        board.reset()
 
-        self.grab_config()
+        self.grab_config('<placeholder>')
 
         # add separate config file and grab these on init
-        DIMENSIONS = (800, 600)
+        self.DIMENSIONS = (800, 600)
 
-        BORDER_RADIUS = 10
+        self.BORDER_RADIUS = 10
 
-        TILE_SIZE = 80
-        GRID_LINE_WIDTH = 15
-        GRID_BORDER_WIDTH = 15
-        GRID_SIZE = TILE_SIZE*4 + GRID_LINE_WIDTH*3 + GRID_BORDER_WIDTH*2
+        self.TILE_SIZE = 80
+        self.GRID_LINE_WIDTH = 15
+        self.GRID_BORDER_WIDTH = 15
+        self.GRID_SIZE = self.TILE_SIZE*4 + self.GRID_LINE_WIDTH*3 + self.GRID_BORDER_WIDTH*2
 
-        GRID_LEFT = (DIMENSIONS[0] - GRID_SIZE) // 2
-        GRID_TOP = (DIMENSIONS[1] - GRID_SIZE) // 2
+        self.GRID_LEFT = (self.DIMENSIONS[0] - self.GRID_SIZE) // 2
+        self.GRID_TOP = (self.DIMENSIONS[1] - self.GRID_SIZE) // 2
 
-        TEST_FONT = pygame.font.SysFont('Calibri', int(TILE_SIZE*0.6))
-        screen = pygame.display.set_mode(DIMENSIONS)
+        self.TEST_FONT = pygame.font.SysFont('Calibri', int(self.TILE_SIZE*0.6))
 
-        GRID_CENTRE = (
-            GRID_SIZE // 2,
-            GRID_SIZE // 2
+        self.GRID_CENTRE = (
+            self.GRID_SIZE // 2,
+            self.GRID_SIZE // 2
         )
 
-        self.display = pygame.display.set_mode(DIMENSIONS)
+        self.display = pygame.display.set_mode(self.DIMENSIONS)
 
     def grab_config(self, path):
         '''dummy method, will grab config variables when i figure out how i want to format them'''
@@ -74,11 +72,32 @@ class GridRenderer:
                 self.COORD_TO_PG[(x, y)] = coord_to_pygame((x, y))
 
 
-    ## =======
-    ## METHODS
-    ## =======
+    ## ===============
+    ## DRAWING METHODS
+    ## ===============
 
-    def draw_tiles(self):
+    def draw_background(self) -> None:
+        '''se'''
+        self.display.fill(colors.IVORY)
+            
+        # grid background
+        pygame.draw.rect(
+            self.display, colors.TGRAY,
+            pygame.Rect(self.GRID_LEFT, self.GRID_TOP, self.GRID_SIZE, self.GRID_SIZE),
+            width = 0, border_radius = self.BORDER_RADIUS
+        )
+
+        # empty tiles
+        for pg_coord in self.COORD_TO_PG.values():
+            pygame.draw.rect(
+                self.display, colors.LGRAY,
+                pygame.Rect(pg_coord[0], pg_coord[1], self.TILE_SIZE, self.TILE_SIZE),
+                width = 0, border_radius = self.BORDER_RADIUS
+            )
+
+        return True
+
+    def draw_tiles(self) -> None:
         for tile_coord, tile_value in self.board.tiles.items():
 
             # replace with match case? seems better. or perhaps a regular check (or separate function)
@@ -101,6 +120,44 @@ class GridRenderer:
             text_rect = tile_text.get_rect(center = self.get_centre_coords(pg_coord))
 
             self.display.blit(tile_text, text_rect)
+
+    def draw_score_text(self) -> None:
+        '''se'''
+        score_text = self.TEST_FONT.render(
+            str(self.board.score), True, colors.AFW
+        )
+
+        self.display.blit(score_text, (10, 10))
+
+        return True
+    
+    def game_over_handler(self) -> None:
+        if self.board.alive == False:
+
+            game_over_surface = pygame.Surface(
+                (self.GRID_SIZE, self.GRID_SIZE), pygame.SRCALPHA
+            )
+
+            # overlay
+            pygame.draw.rect(
+                game_over_surface, colors.GAME_OVER,
+                game_over_surface.get_rect(), border_radius=self.BORDER_RADIUS
+            )
+            
+
+            game_over_text = self.TEST_FONT.render(
+                'Game Over', True, colors.DTEXT
+            )
+
+            text_rect = game_over_text.get_rect(center = self.GRID_CENTRE)
+
+            game_over_surface.blit(game_over_text, text_rect)
+
+            self.display.blit(game_over_surface, (self.GRID_LEFT, self.GRID_TOP))
+
+    ## ==================
+    ## ADDITIONAL METHODS
+    ## ==================
 
     def get_tile_style(
             self,
