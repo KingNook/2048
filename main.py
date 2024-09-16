@@ -89,7 +89,7 @@ grid.reset_grid()
 ## GAME LOGIC
 ## ==========
 
-def handle_peripheral_events():
+def handle_pygame_events(grid):
     for event in pygame.event.get():
 
         if event.type == KEYDOWN:
@@ -217,7 +217,7 @@ async def main():
         ## KEY HANDLING
         ## ============
 
-        handle_peripheral_events()
+        handle_pygame_events(grid)
 
         ## ======
         ## RENDER
