@@ -152,7 +152,7 @@ def draw_score_text():
 
     return True
 
-def draw_tiles():
+def draw_tiles(grid):
     for tile_coord, tile_value in grid.tiles.items():
 
         # replace with match case? seems better. or perhaps a regular check
@@ -225,7 +225,7 @@ async def main():
 
         draw_background()
         draw_score_text()
-        draw_tiles()
+        draw_tiles(grid)
         game_over_handler()
 
         pygame.display.flip()
