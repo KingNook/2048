@@ -89,7 +89,9 @@ class GridRenderer:
             width = 0, border_radius = self.BORDER_RADIUS
         )
 
-        # empty tiles
+        self.draw_board_backdrop()
+
+    def draw_board_backdrop(self) -> None:
         for pg_coord in self.COORD_TO_PG.values():
             pygame.draw.rect(
                 self.display, colors.LGRAY,
@@ -97,18 +99,14 @@ class GridRenderer:
                 width = 0, border_radius = self.BORDER_RADIUS
             )
 
-        return True
 
     def draw_tiles(self) -> None:
         for tile_coord, tile_value in self.board.tiles.items():
             tile_style = self.get_tile_style(tile_value)
             pg_coord = self.COORD_TO_PG[tile_coord]
 
-            # draw tile
-            tile = pygame.draw.rect(
-                self.display, tile_style[0],
-                pygame.Rect(pg_coord[0], pg_coord[1], self.TILE_SIZE, self.TILE_SIZE),
-                width = 0, border_radius = self.BORDER_RADIUS
+            tile = self.draw_tile_base(
+                tile_coord, tile_style
             )
 
             tile_text = self.TEST_FONT.render(
@@ -152,6 +150,39 @@ class GridRenderer:
             game_over_surface.blit(game_over_text, text_rect)
 
             self.display.blit(game_over_surface, (self.GRID_LEFT, self.GRID_TOP))
+
+    def draw_tile_base(
+            self,
+            tile_coord: tuple,
+            tile_style: colors.TileStyle
+    ) -> pygame.rect.Rect:
+        
+        pg_coord = self.COORD_TO_PG[tile_coord]
+
+        return self.draw_rectangle(
+            tile_style[0],
+            pg_coord[0], pg_coord[1],
+            self.TILE_SIZE
+        )
+
+    def draw_square(
+            self,
+            color: tuple,
+            x: int, y: int,
+            size: int
+    ) -> pygame.rect.Rect:
+        '''draws a pygame rectangle on self.display'''
+
+        return pygame.draw.rect(
+            self.display,
+            color,
+            pygame.Rect(
+                x, y, size, size
+            ),
+            width = 0, border_radius = self.BORDER_RADIUS
+        )
+
+
 
     ## ==================
     ## ADDITIONAL METHODS
