@@ -36,7 +36,7 @@ class Grid:
 
         return grid.__repr__()
     
-    def reset_grid(self):
+    def reset(self):
         
         self.tiles = dict()
         self.score = 0
