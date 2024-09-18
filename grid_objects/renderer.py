@@ -1,8 +1,9 @@
 import pygame
 import typing
 
+# breaks if run directly
 from .grid import Grid
-import colors
+from . import colors
 
 from dataclasses import dataclass
 
@@ -159,7 +160,7 @@ class GridRenderer:
         
         pg_coord = self.COORD_TO_PG[tile_coord]
 
-        return self.draw_rectangle(
+        return self.draw_square(
             tile_style[0],
             pg_coord[0], pg_coord[1],
             self.TILE_SIZE

@@ -19,7 +19,7 @@ from pygame.locals import (
 
 import asyncio
 
-import colors
+import grid_objects.colors as colors
 
 import grid_objects
 import grid_objects.renderer
