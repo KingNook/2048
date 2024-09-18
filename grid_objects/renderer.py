@@ -83,10 +83,10 @@ class GridRenderer:
         self.display.fill(colors.IVORY)
             
         # grid background
-        pygame.draw.rect(
-            self.display, colors.TGRAY,
-            pygame.Rect(self.GRID_LEFT, self.GRID_TOP, self.GRID_SIZE, self.GRID_SIZE),
-            width = 0, border_radius = self.BORDER_RADIUS
+        self.draw_square(
+            colors.TGRAY,
+            self.GRID_LEFT, self.GRID_TOP, 
+            self.GRID_SIZE
         )
 
         self.draw_board_backdrop()
