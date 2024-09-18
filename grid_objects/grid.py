@@ -78,17 +78,14 @@ class Grid:
     def any_valid_moves(self):
         '''check to see if any viable moves are possible; returns bool'''
         # return not self.move_down(update=False) or self.move_left(update=False) or self.move_up(update=False) or self.move_right(update=False)
-        # ok so i could just add a requirement for all tiles to be full first but this is 
 
-        up_possible = self.move_up(update=False)
-
-        if self.move_up(update=False):
+        if self.up(update=False):
             return True
-        elif self.move_left(update=False):
+        elif self.left(update=False):
             return True
-        elif self.move_down(update=False):
+        elif self.down(update=False):
             return True
-        elif self.move_right(update=False):
+        elif self.right(update=False):
             return True
         else:
             print('no valid moves')
@@ -256,7 +253,7 @@ class Grid:
             return False
             
     
-    def move_left(self, update=True):
+    def left(self, update=True):
         '''
         makes left move
 
@@ -271,7 +268,7 @@ class Grid:
         else:
             return self.tiles != new_grid
     
-    def move_right(self, update=True):
+    def right(self, update=True):
 
         new_grid = self.move_horizontal(reversed=True)
 
@@ -280,7 +277,7 @@ class Grid:
         else:
             return self.tiles != new_grid
 
-    def move_up(self, update=True):
+    def up(self, update=True):
 
         new_grid = self.move_vertical(reversed=False)
 
@@ -289,7 +286,7 @@ class Grid:
         else:
             return self.tiles != new_grid
     
-    def move_down(self, update=True):
+    def down(self, update=True):
 
         new_grid = self.move_vertical(reversed=True)
 

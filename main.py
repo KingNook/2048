@@ -1,4 +1,6 @@
 import numpy
+import typing
+
 import pygame
 import sys
 from pygame.locals import (
@@ -36,7 +38,11 @@ grid_renderer = renderer.GridRenderer(board)
 ## GAME LOGIC
 ## ==========
 
-def handle_pygame_events(board):
+def magnitude(vector: tuple) -> float:
+    '''magnitude of 2d vector'''
+    return numpy.sqrt(vector[0]**2 + vector[1]**2)
+
+def handle_pygame_events(board, large_motion=[0, 0]):
     for event in pygame.event.get():
 
         if event.type == KEYDOWN:
@@ -45,13 +51,13 @@ def handle_pygame_events(board):
                 alive = False
 
             elif event.key == K_UP or event.key == K_w:
-                board.move_up()
+                board.up()
             elif event.key == K_LEFT or event.key == K_a:
-                board.move_left()
+                board.left()
             elif event.key == K_DOWN or event.key == K_s:
-                board.move_down()
+                board.down()
             elif event.key == K_RIGHT or event.key == K_d:
-                board.move_right()
+                board.right()
 
             elif event.key == K_r and board.alive == False:
                 board.reset()
@@ -59,6 +65,37 @@ def handle_pygame_events(board):
             # for debugging purposes
             elif event.key == K_k:
                 board.alive = not board.alive
+
+        elif event.type == pygame.FINGERDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+            large_motion = [0, 0]
+
+        elif event.type == pygame.FINGERMOTION:
+            if magnitude((event.dx, event.dy)) > 0.1:
+                large_motion = [event.dx, event.dy]
+
+        elif event.type == pygame.MOUSEMOTION:
+            if magnitude(tuple(event.rel)) > 1:
+                large_motion = list(event.rel)
+
+        elif event.type == pygame.FINGERUP or event.type == pygame.MOUSEBUTTONUP:
+            '''handle touch move'''
+
+            if large_motion != [0, 0]:
+
+                if abs(large_motion[0]) >= abs(large_motion[1]):
+
+                    if large_motion[0] > 0:
+                        board.right()
+
+                    else:
+                        board.left()
+
+                else:
+                    if large_motion[1] > 0:
+                        board.down()
+
+                    else:
+                        board.up()
 
         elif event.type == QUIT:
             alive = False
@@ -74,7 +111,7 @@ def handle_pygame_events(board):
 
 alive = True
 async def main():
-    global alive, grid, screen
+    global alive, large_motion
     global DIMENSIONS, BORDER_RADIUS, TILE_SIZE, GRID_LINE_WIDTH, GRID_BORDER_WIDTH, GRID_SIZE, GRID_LEFT, GRID_TOP, TEST_FONT, COORD_TO_PG
 
     while alive:
