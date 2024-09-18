@@ -19,10 +19,7 @@ from pygame.locals import (
 
 import asyncio
 
-import grid_objects.colors as colors
-
-import grid_objects
-import grid_objects.renderer
+from grid_objects import grid, renderer
 
 pygame.init()
 
@@ -30,10 +27,10 @@ pygame.init()
 ## DEFINITIONS
 ## ===========
 
-board = grid_objects.grid.Grid(4)
+board = grid.Grid(4)
 board.reset()
 
-grid_renderer = grid_objects.renderer.GridRenderer(board)
+grid_renderer = renderer.GridRenderer(board)
 
 ## ==========
 ## GAME LOGIC
