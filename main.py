@@ -97,6 +97,8 @@ def handle_pygame_events(board, large_motion=[0, 0]):
                     else:
                         board.up()
 
+            large_motion = [0, 0]
+
         elif event.type == QUIT:
             alive = False
             sys.exit()
