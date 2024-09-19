@@ -1,0 +1,5 @@
+dimensions: [800, 600]
+border_radius: 10
+tile_size: 80
+grid_line_width: 15
+grid_border_width: 15
