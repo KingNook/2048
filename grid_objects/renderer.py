@@ -48,7 +48,12 @@ class GridRenderer:
 
     def grab_config(self, subpath) -> None:
         '''grabs config from main'''
-        self.properties = config_reader.load_config(file_name = subpath)
+        
+        config = config_reader.load_config(file_name = subpath)
+
+        self.properties = config['properties']
+        self.settings = config['settings']
+        
         self.update_properties()
 
     def update_properties(self) -> None:
