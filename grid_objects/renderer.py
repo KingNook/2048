@@ -37,7 +37,7 @@ class GridRenderer:
         self.TEST_FONT = pygame.font.SysFont('Calibri', int(self.properties['tile_size']*0.6))
 
         self.setup_pg_to_coord()
-        self.display = pygame.display.set_mode(self.properties['dimensions'])
+        self.display = pygame.display.set_mode(self.properties['dimensions'], pygame.RESIZABLE)
 
     def grab_config(self, subpath) -> None:
         '''grabs config from main'''
@@ -99,6 +99,15 @@ class GridRenderer:
     ## DRAWING METHODS
     ## ===============
 
+    def draw_grid(self) -> None:
+        #layer 0
+        self.draw_background()
+        #layer 1
+        self.draw_score_text()
+        self.draw_tiles()
+        #layer 2
+        self.game_over_handler()
+
     def draw_background(self) -> None:
         '''se'''
         self.display.fill(colors.IVORY)
@@ -149,6 +158,7 @@ class GridRenderer:
         return True
     
     def game_over_handler(self) -> None:
+        # move condition outside
         if self.board.alive == False:
 
             game_over_surface = pygame.Surface(
@@ -208,6 +218,15 @@ class GridRenderer:
     ## ==================
     ## ADDITIONAL METHODS
     ## ==================
+
+    def resize_handler(
+            self,
+            event
+    ) -> None:
+        self.properties['dimensions'] = (event.x, event.y)
+
+        self.update_properties()
+        self.draw_grid()
 
     def get_tile_style(
             self,

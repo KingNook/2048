@@ -42,7 +42,7 @@ def magnitude(vector: tuple) -> float:
     '''magnitude of 2d vector'''
     return numpy.sqrt(vector[0]**2 + vector[1]**2)
 
-def handle_pygame_events(board, large_motion=[0, 0]):
+def handle_pygame_events(display, large_motion=[0, 0]):
     for event in pygame.event.get():
 
         if event.type == KEYDOWN:
@@ -51,20 +51,20 @@ def handle_pygame_events(board, large_motion=[0, 0]):
                 alive = False
 
             elif event.key == K_UP or event.key == K_w:
-                board.up()
+                renderer.board.up()
             elif event.key == K_LEFT or event.key == K_a:
-                board.left()
+                renderer.board.left()
             elif event.key == K_DOWN or event.key == K_s:
-                board.down()
+                renderer.board.down()
             elif event.key == K_RIGHT or event.key == K_d:
-                board.right()
+                renderer.board.right()
 
             elif event.key == K_r and board.alive == False:
-                board.reset()
+                renderer.board.reset()
 
             # for debugging purposes
             elif event.key == K_k:
-                board.alive = not board.alive
+                renderer.board.alive = not board.alive
 
         elif event.type == pygame.FINGERDOWN or event.type == pygame.MOUSEBUTTONDOWN:
             large_motion = [0, 0]
@@ -101,6 +101,9 @@ def handle_pygame_events(board, large_motion=[0, 0]):
             alive = False
             sys.exit()
 
+        elif event.type == pygame.WINDOWRESIZED:
+            display.resize_handler(event)
+
 ## ================
 ## RENDER FUNCTIONS
 ## ================
@@ -120,7 +123,7 @@ async def main():
         ## KEY HANDLING
         ## ============
 
-        handle_pygame_events(grid_renderer.board)
+        handle_pygame_events(grid_renderer)
 
         ## ======
         ## RENDER
