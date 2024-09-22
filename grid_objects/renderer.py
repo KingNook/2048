@@ -34,39 +34,47 @@ class GridRenderer:
         self.properties = dict()
         self.grab_config(config_subpath)
 
-        # add separate config file and grab these on init
-        self.properties['dimensions'] = (800, 600)
-        self.properties['border_radius'] = 10
-        self.properties['tile_size'] = 80
-        self.properties['grid_line_width'] = 15
-        self.properties['grid_border_width'] = 15
-
         self.TEST_FONT = pygame.font.SysFont('Calibri', int(self.properties['tile_size']*0.6))
 
         self.setup_pg_to_coord()
-        self.display = pygame.display.set_mode(self.properties['dimensions'])
+        self.display = pygame.display.set_mode(self.properties['dimensions'], pygame.RESIZABLE)
 
     def grab_config(self, subpath) -> None:
         '''grabs config from main'''
         
         config = config_reader.load_config(file_name = subpath)
 
-        self.properties = config['properties']
+        self.properties = config['default_properties']
         self.settings = config['settings']
         
         self.update_properties()
 
     def update_properties(self) -> None:
-        '''update the "dependent" properties'''
+        '''
+        updates "dependent" properties
+
+        note: may have to add minimum sizes if this turns out to be an issue
+        (for now it seems it'll be fine for reasonable screen sizes)
+        '''
+
+        # we scale the size of ui elements off of the smaller dimension
+        min_dim = min(self.properties['dimensions'])
+
+        self.properties['border_radius'] = min_dim // self.settings['border_ratio']
+        self.properties['tile_size'] = min_dim // self.settings['tile_ratio']
+        self.properties['grid_line_width'] = min_dim // self.settings['grid_line_ratio']
+        self.properties['grid_border_width'] = min_dim // self.settings['grid_border_ratio']
 
         self.properties['grid_size'] = self.properties['tile_size']*4 + self.properties['grid_line_width']*3 + self.properties['grid_border_width']*2
         self.properties['grid_left'] = (self.properties['dimensions'][0] - self.properties['grid_size']) // 2
-        self.properties['GRID_TOP'] = (self.properties['dimensions'][1] - self.properties['grid_size']) // 2
+        self.properties['grid_top'] = (self.properties['dimensions'][1] - self.properties['grid_size']) // 2
 
         self.properties['grid_centre'] = (
             self.properties['grid_size'] // 2,
             self.properties['grid_size'] // 2
         )
+
+        self.update_test_font()
 
         self.setup_pg_to_coord()
 
@@ -74,7 +82,7 @@ class GridRenderer:
 
         coord_to_pygame = lambda coord: (
             self.properties['grid_left'] + self.properties['grid_border_width'] + (self.properties['grid_line_width'] + self.properties['tile_size'])*coord[1],
-            self.properties['GRID_TOP'] + self.properties['grid_border_width'] + (self.properties['grid_line_width'] + self.properties['tile_size'])*coord[0]
+            self.properties['grid_top'] + self.properties['grid_border_width'] + (self.properties['grid_line_width'] + self.properties['tile_size'])*coord[0]
         )
 
         # dictionary containing k-v pairs grid coordinate : pygame (pixel) coordinate
@@ -84,10 +92,21 @@ class GridRenderer:
             for y in range(4):
                 self.coord_to_pg[(x, y)] = coord_to_pygame((x, y))
 
+    def update_test_font(self) -> None:
+        self.TEST_FONT = pygame.font.SysFont('Calibri', int(self.properties['tile_size']*0.6))
 
     ## ===============
     ## DRAWING METHODS
     ## ===============
+
+    def draw_grid(self) -> None:
+        #layer 0
+        self.draw_background()
+        #layer 1
+        self.draw_score_text()
+        self.draw_tiles()
+        #layer 2
+        self.game_over_handler()
 
     def draw_background(self) -> None:
         '''se'''
@@ -96,7 +115,7 @@ class GridRenderer:
         # grid background
         self.draw_square(
             colors.TGRAY,
-            self.properties['grid_left'], self.properties['GRID_TOP'], 
+            self.properties['grid_left'], self.properties['grid_top'], 
             self.properties['grid_size']
         )
 
@@ -139,6 +158,7 @@ class GridRenderer:
         return True
     
     def game_over_handler(self) -> None:
+        # move condition outside
         if self.board.alive == False:
 
             game_over_surface = pygame.Surface(
@@ -160,7 +180,7 @@ class GridRenderer:
 
             game_over_surface.blit(game_over_text, text_rect)
 
-            self.display.blit(game_over_surface, (self.properties['grid_left'], self.properties['GRID_TOP']))
+            self.display.blit(game_over_surface, (self.properties['grid_left'], self.properties['grid_top']))
 
     def draw_tile_base(
             self,
@@ -198,6 +218,15 @@ class GridRenderer:
     ## ==================
     ## ADDITIONAL METHODS
     ## ==================
+
+    def resize_handler(
+            self,
+            event
+    ) -> None:
+        self.properties['dimensions'] = (event.x, event.y)
+
+        self.update_properties()
+        self.draw_grid()
 
     def get_tile_style(
             self,
