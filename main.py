@@ -74,7 +74,7 @@ def handle_pygame_events(display, large_motion=[0, 0]):
                 large_motion = [event.dx, event.dy]
 
         elif event.type == pygame.MOUSEMOTION:
-            if magnitude(tuple(event.rel)) > 1:
+            if magnitude(tuple(event.rel)) > 0.5:
                 large_motion = list(event.rel)
 
         elif event.type == pygame.FINGERUP or event.type == pygame.MOUSEBUTTONUP:
@@ -96,6 +96,8 @@ def handle_pygame_events(display, large_motion=[0, 0]):
 
                     else:
                         board.up()
+
+            large_motion = [0, 0]
 
         elif event.type == QUIT:
             alive = False
