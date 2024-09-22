@@ -1,0 +1,10 @@
+default_properties:
+  dimensions: [800, 600]
+
+settings:
+  # all ratios will be minimum grid dimension : <thing>
+  # eg tile_ratio: 10 means <tile_size> : min grid dim = 1 : 10
+  border_ratio: 60
+  tile_ratio: 7.5
+  grid_line_ratio: 40
+  grid_border_ratio: 40
